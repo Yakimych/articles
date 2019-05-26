@@ -1,0 +1,21 @@
+{
+  "name": "reason-in-react-typescript",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6-global",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "refmt": 3,
+  "gentypeconfig": {
+    "language": "untyped"
+  }
+}

@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
+    "bs-platform": "^5.0.4",
+    "gentype": "^2.24.0",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1"
