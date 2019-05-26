@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "bsb -make-world && vue-cli-service serve",
+    "build": "bsb -make-world && vue-cli-service build"
   },
   "dependencies": {
+    "@glennsl/bs-json": "^3.0.0",
+    "bs-axios": "0.0.42",
     "core-js": "^2.6.5",
     "vue": "^2.6.10"
   },
@@ -16,8 +17,10 @@
     "@vue/cli-plugin-eslint": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
     "babel-eslint": "^10.0.1",
+    "bs-platform": "^5.0.4",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "gentype": "^2.24.0",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

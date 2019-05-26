@@ -1,13 +1,37 @@
 <template>
   <div id="app">
-    Starting point
+    <div class="number-fact">
+      <div>Number: {{numberFact.number}}</div>
+      <div>Fact: "{{numberFact.text}}"</div>
+      <div>{{numberFact.isFound ? "Found" : "Not found!"}}</div>
+      <button @click="fetchNewFact">Fetch new fact</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { fetchNumberFact } from "./reason/NumberFacts.gen";
+
 export default {
-  name: 'app',
-}
+  name: "app",
+  data() {
+    return {
+      numberFact: {
+        number: -1,
+        text: "-1 is not an interesting number",
+        isFound: false
+      }
+    };
+  },
+  methods: {
+    fetchNewFact: function() {
+      fetchNumberFact().then(numberFact => (this.numberFact = numberFact));
+    }
+  },
+  mounted: function() {
+    this.fetchNewFact();
+  }
+};
 </script>
 
 <style>
