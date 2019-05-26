@@ -4,7 +4,7 @@ Despite the fact that [ReasonML](https://reasonml.github.io/) is a natural fit f
 
 If you're working with Vue and like OCaml/ReasonML, or whether you've heard all the hype and are curious to try &mdash; in this article I will show how to use code written in Reason from Vue.
 
-Note: This is the second article in my miniseries about integrating Reason into an existing codebase. For a more basic explanation about how everything hangs together, check out the first article: [Adding ReasonML to an existing codebase](https://github.com/Yakimych/reason-in-typescript/blob/master/basic-javascript/README.md). In Part 3 we're going to integrate Reason into a [React](https://reactjs.org/) [TypeScript](https://www.typescriptlang.org/) codebase.
+Note: This is the second article in my miniseries about integrating Reason into an existing codebase. For a more basic explanation about how everything hangs together, check out the first article: [Adding ReasonML to an existing codebase](https://github.com/Yakimych/reason-in-typescript/blob/master/basic-javascript/README.md). In [Part 3](https://github.com/Yakimych/articles/tree/master/react-typescript) we're going to integrate Reason into a [React](https://reactjs.org/) [TypeScript](https://www.typescriptlang.org/) codebase.
 
 ## Step 0: Starting point
 
@@ -12,7 +12,7 @@ Our starting point is a freshly created Vue application with the help of the [Vu
 
 ## Step 1: Adding BuckleScript
 
-We are going to need [BuckleScript](https://bucklescript.github.io/) for compiling ReasonML or OCaml code to JavaScript and [genType](https://github.com/cristianoc/genType) in order to simplify interop between Reason and JS. More about this in [Part 1](https://github.com/Yakimych/reason-in-typescript/blob/master/basic-javascript/README.md) of the mini series.
+We are going to need [BuckleScript](https://bucklescript.github.io/) for compiling ReasonML or OCaml code to JavaScript and [genType](https://github.com/cristianoc/genType) in order to simplify interop between Reason and JS. More about this in [Part 1](https://github.com/Yakimych/reason-in-typescript/tree/master/basic-javascript) of the mini series.
 
 Let's go ahead and install the packages:
 
@@ -113,7 +113,9 @@ export default {
 </script>
 ```
 
-Note that if you're running from the terminal and would like changes in Reason files to get transpiled and picked up on the fly, we would need to have `bsb -make-world -w` running in the background.
+Note that if you're running from the terminal and would like changes in Reason files to get transpiled and picked up on the fly, we would need to have `bsb -make-world -w` running in the background:
+
+![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58385381-c1645480-7fef-11e9-972b-54a1c20bf29b.gif)
 
 ## Step 3: Calling the API and decoding the response in Reason
 
@@ -142,7 +144,7 @@ An important step that is easy to forget is adding those dependencies to `bsconf
   "bs-dependencies": ["@glennsl/bs-json", "bs-axios"]
 ```
 
-Now we can create a new file `NumberFacts.re`, model the type and create a decoder:
+Now we can create a new file `NumberFacts.re`, model the type, and create a decoder:
 
 ```ocaml
 [@genType]
@@ -234,6 +236,6 @@ A new fact will be automatically loaded after the component is mounted. Clicking
 
 ## Summary
 
-Adding ReasonML to an existing Vue codebase can be done in a matter of minutes. After this initial setup, it becomes possible to write logic in ReasonML or OCaml and use it in existing Vue components. The source code is available on [GitHub](TODO).
+Adding ReasonML to an existing Vue codebase can be done in a matter of minutes. After this initial setup, it becomes possible to write logic in ReasonML or OCaml and use it in existing Vue components. The source code is available on [GitHub](https://github.com/Yakimych/articles/tree/master/reason-in-vue).
 
 Hopefully this tutorial will inspire Vue.js developers to try ReasonML!

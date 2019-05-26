@@ -8,7 +8,7 @@ This is going to be a miniseries about adding ReasonML to an existing codebase. 
 - calling it from JavaScript
 - using ReasonML types as JavaScript records (via [genType](https://github.com/cristianoc/genType))
 
-In Part 2 we are going to look at how to add some API-calling-and-decoding functions written in ReasonML to a [Vue.js](https://vuejs.org/) application. And in Part 3 we're going to use the same API caller in a [React](https://reactjs.org/) [TypeScript](https://www.typescriptlang.org/) application. So let's get started.
+In [Part 2](https://github.com/Yakimych/articles/tree/master/reason-in-vue) we are going to look at how to add some API-calling-and-decoding functions written in ReasonML to a [Vue.js](https://vuejs.org/) application. And in [Part 3](https://github.com/Yakimych/articles/tree/master/react-typescript) we're going to use the same API caller in a [React](https://reactjs.org/) [TypeScript](https://www.typescriptlang.org/) application. So let's get started.
 
 ## Step 0: Starting point
 
@@ -110,7 +110,7 @@ document.body.appendChild(component());
 
 Sure enough &mdash; we can now run `npm start` and see the text: _"The result is 3"_ in the browser. If we change the Reason code to `a + b + 1;` and save, the text in the browser would get updated to _"The result is 4"_ on the fly. This means that the code written in ReasonML is now succesfully transpiled, picked up, and run in our JavaScript codebase!
 
-![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58381137-053c6700-7fba-11e9-98d8-87186d7f7da0.gif)
+![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58385381-c1645480-7fef-11e9-972b-54a1c20bf29b.gif)
 
 ## Step 3: Returning a record from ReasonML
 
@@ -185,7 +185,7 @@ export const getUser = function(Arg1) {
 };
 ```
 
-Now before calling this from JavaScript, we need to make sure we import `getUser` from `ReasonFunctions.gen,` and __NOT__ from `ReasonFunctions.bs`:
+Now before calling this from JavaScript, we need to make sure we import `getUser` from `ReasonFunctions.gen`, and __NOT__ from `ReasonFunctions.bs`:
 
 ```javascript
 import { getUser } from "./ReasonFunctions.gen";
@@ -207,6 +207,6 @@ User: Object
 
 ## Summary
 
-This is the first article in this miniseries, which demonstrates (on a relatively low-level) the basics of what happens to code written in ReasonML and how it ends up in a JavaScript codebase.
+This is the first article in this miniseries, which demonstrates (on a relatively low-level) the basics of what happens to code written in ReasonML and how it ends up in a JavaScript codebase. The source code is available on [GitHub](https://github.com/Yakimych/articles/tree/master/basic-javascript).
 
-The followup articles will show more practical examples of how to use this approach for including Reason code in an existing Vue.js application, as well as a React TypeScript application, without losing type information along the way.
+The followup articles will show more practical examples of how to use this approach for including Reason code in an [existing Vue.js application](https://github.com/Yakimych/articles/tree/master/reason-in-vue), as well as a [React TypeScript application](https://github.com/Yakimych/articles/tree/master/react-typescript), without losing type information along the way.
