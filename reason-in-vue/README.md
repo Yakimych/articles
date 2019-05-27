@@ -115,7 +115,7 @@ export default {
 
 Note that if you're running from the terminal and would like changes in Reason files to get transpiled and picked up on the fly, we would need to have `bsb -make-world -w` running in the background:
 
-![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58385381-c1645480-7fef-11e9-972b-54a1c20bf29b.gif)
+![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58440664-e6ce8c80-80db-11e9-8eaf-e3055ba954a9.gif)
 
 ## Step 3: Calling the API and decoding the response in Reason
 

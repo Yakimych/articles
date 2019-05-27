@@ -110,7 +110,7 @@ document.body.appendChild(component());
 
 Sure enough &mdash; we can now run `npm start` and see the text: _"The result is 3"_ in the browser. If we change the Reason code to `a + b + 1;` and save, the text in the browser would get updated to _"The result is 4"_ on the fly. This means that the code written in ReasonML is now succesfully transpiled, picked up, and run in our JavaScript codebase!
 
-![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58385381-c1645480-7fef-11e9-972b-54a1c20bf29b.gif)
+![Compilation on the fly](https://user-images.githubusercontent.com/5010901/58440809-2e094d00-80dd-11e9-9256-a3e47adbba98.gif)
 
 ## Step 3: Returning a record from ReasonML
 
