@@ -5,17 +5,19 @@ When TypeScript lies &mdash; API responses
 The most obvious challenge when relying on a type system, is to make sure that the guarantees it provides do not break whenever some piece of data comes from an external source, such as from a remote server via an API call.
 
 ```ts
-const getUsers = (): Promise<List<User>> => {
-  const result = axios.get<MyType>("http://server_url/users");
-  return result.users;
+const getUsers = (): Promise<User[]> => {
+  const result = axios.get<UserApiResponse>("http://server_url/users");
+  return result.data.users;
 };
 ```
 
 We are happy to "strongly type" both the `getUsers` function, as well as `axios.get`, but what happens if whatever comes back from the server does not have a field called `users`? Our IDE will tell us that accessing `users` is safe, and it will readily help us with intellisense:
 
-[SCREENSHOT]
+![Intellisense provides potentially unreliable type information](https://user-images.githubusercontent.com/5010901/61309186-0176d500-a7f2-11e9-91ab-02454ca65683.png)
 
 The compiler and typechecker will happily confirm that the types are correct and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we can happily map over the `users` array and get a runtime crash &mdash; just like we would with good old JavaScript.
+
+![An object that cannot be undefined according to the type system is undefined at runtime](https://user-images.githubusercontent.com/5010901/61309132-edcb6e80-a7f1-11e9-9893-b8cf525029be.png)
 
 The thing that is extra disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it.
 
@@ -63,20 +65,25 @@ Now TypeScript will actually not allow us to freely pass around `apiResponse.use
 
 ```ts
 const getUsers = (apiBaseUrl: string) => {
-  const apiResponse = axios.getUsers<unknown>(apiBaseUrl);
+  const apiResponse = axios.get<unknown>(apiBaseUrl);
 
-  return apiResponse.users; // Error
+  return apiResponse.data.users; // Error: Object is of type 'unknown'
 };
 ```
+
+![The type system prevents us from returning undecoded JSON](https://user-images.githubusercontent.com/5010901/61309289-32efa080-a7f2-11e9-9a2d-cdb1b9b15bf7.png)
+
 
 ```ts
 const getUsers = (apiBaseUrl: string) => {
   const apiResponse = axios.getUsers<unknown>(apiBaseUrl);
-  const decodedResponse = usersApiResponseDecoder.runWithException(apiResponse);
+  const decodedResponse = usersApiResponseDecoder.runWithException(apiResponse.data);
 
   return decodedResponse.users; // Now we can safely access the user array
 };
 ```
+
+![If we get to the return statement in runtime, the type is guaranteed to be correct according to TypeScript](https://user-images.githubusercontent.com/5010901/61309336-4864ca80-a7f2-11e9-9056-74715e7d79ae.png)
 
 In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: "TODO: Error message", which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :)
 
