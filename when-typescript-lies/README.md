@@ -85,7 +85,7 @@ const getUsers = (apiBaseUrl: string) => {
 
 ![If we get to the return statement in runtime, the type is guaranteed to be correct according to TypeScript](https://user-images.githubusercontent.com/5010901/61309336-4864ca80-a7f2-11e9-9056-74715e7d79ae.png)
 
-In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: "TODO: Error message", which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :)
+In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: "DecoderError: the key 'users' is required but was not present", which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :)
 
 ### The "magical" approach
 
