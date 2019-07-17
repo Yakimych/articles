@@ -1,6 +1,6 @@
 A switch from plain JavaScript to TypeScript at our company about a year ago proved to be one of the most succesfull technical decisions we've made in a while. Surprisingly, the productivity boost when working with our frontend code exceeded any expectations. In this article, however, I am going to focus on some of the problems that TypeScript does not solve (even though one would think it would), and what we are doing in order to try to mitigate those problems.
 
-When TypeScript lies &mdash; API responses
+## When TypeScript lies &mdash; API responses
 
 The most obvious challenge when relying on a type system, is to make sure that the guarantees it provides do not break whenever some piece of data comes from an external source, such as from a remote server via an API call.
 
@@ -21,7 +21,7 @@ The compiler and typechecker will happily confirm that the types are correct and
 
 The thing that is extra disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it.
 
-When TypeScript lies &mdash; JSON.deserialize (?)
+## When TypeScript lies &mdash; JSON.parse()
 
 At first glance, since
 
@@ -73,11 +73,12 @@ const getUsers = (apiBaseUrl: string) => {
 
 ![The type system prevents us from returning undecoded JSON](https://user-images.githubusercontent.com/5010901/61309289-32efa080-a7f2-11e9-9a2d-cdb1b9b15bf7.png)
 
-
 ```ts
 const getUsers = (apiBaseUrl: string) => {
   const apiResponse = axios.getUsers<unknown>(apiBaseUrl);
-  const decodedResponse = usersApiResponseDecoder.runWithException(apiResponse.data);
+  const decodedResponse = usersApiResponseDecoder.runWithException(
+    apiResponse.data
+  );
 
   return decodedResponse.users; // Now we can safely access the user array
 };
