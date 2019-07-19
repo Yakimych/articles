@@ -23,7 +23,33 @@ The thing that is extra disturbing is that depending on the journey of the `user
 
 ## When TypeScript lies &mdash; JSON.parse()
 
-At first glance, since
+At first glance, since we have full control over what we JSON.stringify and later JSON.parse of the frontend, this shouldn't be as much of a problem as when receiving data from extrernal sources. However, there are unpleasant gotchas, such as in the example below. Let's say we have an type with a "Date" field:
+
+```ts
+type SomeEvent = {
+  description: string;
+  date: Date;
+};
+```
+
+And we want to stringify and later parse the result into another object of type `SomeEvent`:
+
+```ts
+const someEvent: SomeEvent = {
+  description: "Birthday",
+  date: new Date()
+};
+
+const serializedEvent: string = JSON.stringify(someEvent);
+
+const deserializedEvent: SomeEvent = JSON.parse(serializedEvent);
+```
+
+This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`, but because the date is stringified into a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDay` on this "date": `Uncaught TypeError: deserializedEvent.date.getDay is not a function`.
+
+[Image]
+
+This is not really a problem with TypeScript itself, or JavaScript for that matter, rather a consequence of how strings are represented in JSON. This is, however, an example of a situation when TypeScript gives us false confidence in what we can and cannot do at a certain place in the code.
 
 ## Solution
 
