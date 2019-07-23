@@ -15,15 +15,15 @@ We are happy to "strongly type" both the `getUsers` function, as well as `axios.
 
 ![Intellisense provides potentially unreliable type information](https://user-images.githubusercontent.com/5010901/61309186-0176d500-a7f2-11e9-91ab-02454ca65683.png)
 
-The compiler and typechecker will happily confirm that the types are correct and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we can happily map over the `users` array and get a runtime crash &mdash; just like we would with good old JavaScript.
+The compiler and typechecker will happily confirm that the types are correct and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we can happily map over the `users` array (_cough_ undefined _cough_) and get a runtime crash &mdash; just like we would with good old JavaScript.
 
 ![An object that cannot be undefined according to the type system is undefined at runtime](https://user-images.githubusercontent.com/5010901/61309132-edcb6e80-a7f1-11e9-9893-b8cf525029be.png)
 
-The thing that is extra disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it.
+What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it.
 
 ## When TypeScript lies &mdash; JSON.parse()
 
-At first glance, since we have full control over what we JSON.stringify and later JSON.parse of the frontend, this shouldn't be as much of a problem as when receiving data from extrernal sources. However, there are unpleasant gotchas, such as in the example below. Let's say we have an type with a "Date" field:
+At first glance, since we have full control over what we `JSON.stringify` and later `JSON.parse` of the frontend, this shouldn't be as much of a problem as when receiving data from extrernal sources. However, there are unpleasant gotchas, such as in the example below. Let's say we have an type with a `Date` field:
 
 ```ts
 type SomeEvent = {
@@ -45,7 +45,7 @@ const serializedEvent: string = JSON.stringify(someEvent);
 const deserializedEvent: SomeEvent = JSON.parse(serializedEvent);
 ```
 
-This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`, but because the date is stringified into a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDay` on this "date": `Uncaught TypeError: deserializedEvent.date.getDay is not a function`.
+This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`, but because the date is stringified into... well... a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDate()` on this "date": `Uncaught TypeError: deserializedEvent.date.getDate is not a function`.
 
 [Image]
 
