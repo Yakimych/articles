@@ -47,7 +47,9 @@ const deserializedEvent: SomeEvent = JSON.parse(serializedEvent);
 
 This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`, but because the date is stringified into... well... a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDate()` on this "date": `Uncaught TypeError: deserializedEvent.date.getDate is not a function`.
 
-[Image]
+![Intellisense tells us getDate() exists and is safe to use, but it crashes at runtime](https://user-images.githubusercontent.com/5010901/61804139-b123f680-ae33-11e9-9b4c-0ea840b34a8d.png)
+
+![Runtime errors when trying to call getDate() on an actual string](https://user-images.githubusercontent.com/5010901/61803814-2642fc00-ae33-11e9-89f3-f292122a460a.png)
 
 This is not really a problem with TypeScript itself, or JavaScript for that matter, rather a consequence of how strings are represented in JSON. This is, however, an example of a situation when TypeScript gives us false confidence in what we can and cannot do at a certain place in the code.
 
@@ -112,7 +114,7 @@ const getUsers = (apiBaseUrl: string) => {
 
 ![If we get to the return statement in runtime, the type is guaranteed to be correct according to TypeScript](https://user-images.githubusercontent.com/5010901/61309336-4864ca80-a7f2-11e9-9056-74715e7d79ae.png)
 
-In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: "DecoderError: the key 'users' is required but was not present", which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :)
+In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: `DecoderError: the key 'users' is required but was not present`, which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :)
 
 ### The "magical" approach
 
