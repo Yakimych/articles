@@ -1,3 +1,5 @@
+# When TypeScript lies... and how to make it honest
+
 A switch from plain JavaScript to TypeScript at our company about a year ago proved to be one of the most succesfull technical decisions we've made in a while. Surprisingly, the productivity boost when working with our frontend code exceeded any expectations. In this article, however, I am going to focus on some of the problems that TypeScript does not solve (even though one would think it would), and what we are doing in order to try to mitigate those problems.
 
 ## When TypeScript lies &mdash; API responses
@@ -19,7 +21,7 @@ The compiler and typechecker will happily confirm that the types are correct and
 
 ![An object that cannot be undefined according to the type system is undefined at runtime](https://user-images.githubusercontent.com/5010901/61309132-edcb6e80-a7f1-11e9-9893-b8cf525029be.png)
 
-What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it.
+What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it. While this is *totally* normal for JavaScript, where we're used to this kind of stuff and just patiently wait for it to crash in runtime, with TypeScript it's even more annoying, becase of the expectations that the type system is supposed to help deal with exactly such kind of problems.
 
 ## When TypeScript lies &mdash; JSON.parse()
 
@@ -53,7 +55,7 @@ This seems like a reasonable operation, and TypeScript will not fight us along t
 
 This is not really a problem with TypeScript itself, or JavaScript for that matter, rather a consequence of how strings are represented in JSON. This is, however, an example of a situation when TypeScript gives us false confidence in what we can and cannot do at a certain place in the code.
 
-## Solution
+## How to make it honest
 
 There are a few ways to mitigate those problems &mdash; some requiring more magic, others &mdash; more code.
 
