@@ -17,15 +17,15 @@ We are happy to "strongly type" both the `getUsers` function, as well as `axios.
 
 ![Intellisense provides potentially unreliable type information](https://user-images.githubusercontent.com/5010901/61309186-0176d500-a7f2-11e9-91ab-02454ca65683.png)
 
-The compiler and typechecker will be even more happy to confirm that the types are correct, and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we enthusiastically map over the `users` array (_cough_ undefined _cough_) and get a runtime crash &mdash; just like we would with good old JavaScript.
+The compiler and typechecker will be even more happy to confirm that the types are correct, and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we enthusiastically map over the `users` array (_\*cough\*_ undefined _\*cough\*_) and get a runtime crash &mdash; just like we would with good old JavaScript.
 
 ![An object that cannot be undefined according to the type system is undefined at runtime](https://user-images.githubusercontent.com/5010901/61309132-edcb6e80-a7f1-11e9-9893-b8cf525029be.png)
 
-What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it. While this is (_totally_...?) normal for JavaScript, where we're used to this kind of stuff and just patiently wait for it to crash in runtime, with TypeScript it's even more annoying, because of the expectations that the type system is supposed to help deal with exactly such kind of problems.
+What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it. While this is (_\*totally\*_...?) normal for JavaScript, where we're used to this kind of stuff and just patiently wait for it to crash in runtime, with TypeScript it's even more annoying, because of the expectations that the type system is supposed to help deal with exactly this sort of problems.
 
 ## When TypeScript lies &mdash; JSON.parse()
 
-At first glance, since we have full control over what we `JSON.stringify` and later `JSON.parse` of the frontend, this shouldn't be as much of a problem as when receiving data from external sources. However, there are unpleasant gotchas, such as in the example below. Let's say we have a type with a `Date` field:
+At first glance, since we have full control over what we `JSON.stringify` and later `JSON.parse` of the frontend, this shouldn't be as much of a problem as when receiving data from external sources. However, there are certain unpleasant gotchas one might be unlucky to run into, such as in the example below. Let's say we have a type with a `Date` field:
 
 ```ts
 type SomeEvent = {
@@ -47,13 +47,13 @@ const serializedEvent: string = JSON.stringify(someEvent);
 const deserializedEvent: SomeEvent = JSON.parse(serializedEvent);
 ```
 
-This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`. However, because the date is stringified into... well... a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDate()` on this "date": `Uncaught TypeError: deserializedEvent.date.getDate is not a function`.
+This seems like a reasonable operation, and TypeScript will not fight us along the way. However, because the date is stringified into... well... a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDate()` on this "date": `Uncaught TypeError: deserializedEvent.date.getDate is not a function`.
 
 ![Intellisense tells us getDate() exists and is safe to use, but it crashes at runtime](https://user-images.githubusercontent.com/5010901/61804139-b123f680-ae33-11e9-9b4c-0ea840b34a8d.png)
 
 ![Runtime errors when trying to call getDate() on an actual string](https://user-images.githubusercontent.com/5010901/61803814-2642fc00-ae33-11e9-89f3-f292122a460a.png)
 
-This is not really a problem with TypeScript itself, or JavaScript for that matter, rather a consequence of how strings are represented in JSON. This is, however, an example of a situation when TypeScript gives us false confidence in what we can and cannot do at a certain place in the code.
+This is not really a problem with TypeScript itself, or JavaScript for that matter, rather a consequence of how dates are represented in JSON. This is, however, an example of a situation when TypeScript gives us false confidence in what we can and cannot do at a certain place in the code.
 
 ## How to make it honest
 
