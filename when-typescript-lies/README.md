@@ -89,7 +89,7 @@ const userApiResponseDecoder = object({
 });
 ```
 
-When getting data from the API we can keep ourselves in check by being extra honest and marking the return type from axios responses as `unknown`. After all, we don't really know at "compile time" what the server is going to return, do we? :)
+When getting data from the API we can keep ourselves in check by being extra honest and marking the return type from axios responses as `unknown`. After all, we don't really know at "compile time" what the server is going to return, do we? :smile:
 
 Now TypeScript will not even allow us to freely pass around `apiResponse.users` and pretend like we are sure it's an array of users. We would have to decode the `apiResponse` first:
 
@@ -116,7 +116,7 @@ const getUsers = (apiBaseUrl: string) => {
 
 ![If we get to the return statement in runtime, the type is guaranteed to be correct according to TypeScript](https://user-images.githubusercontent.com/5010901/61309336-4864ca80-a7f2-11e9-9056-74715e7d79ae.png)
 
-In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: `DecoderError: the key 'users' is required but was not present`, which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :)
+In this case we are still going to crash at runtime, but we're going to fail early and fail with a clear error message: `DecoderError: the key 'users' is required but was not present`, which means that not only do we get palpable clues as to how to fix the error, but also that TypeScript is not lying any more at any point in the codebase! :smile:
 
 ### The "magical" approach
 
@@ -126,4 +126,4 @@ While "magical" solutions might sometimes be tricky to understand or debug, this
 
 ### The "crazy-but-fun" approach
 
-Oh, and for the more adventurous kind &mdash; it is also possible to implement an [API-calling layer in ReasonML](https://github.com/Yakimych/articles/blob/master/react-typescript/README.md), generate TypeScript types via [genType](https://github.com/cristianoc/genType) and tie everything together with the rest of the codebase via [BuckleScript](https://bucklescript.github.io/). Seems overkill, but why not learn a new technology and have some fun at the same time? :)
+Oh, and for the more adventurous kind &mdash; it is also possible to implement an [API-calling layer in ReasonML](https://github.com/Yakimych/articles/blob/master/react-typescript/README.md), generate TypeScript types via [genType](https://github.com/cristianoc/genType) and tie everything together with the rest of the codebase via [BuckleScript](https://bucklescript.github.io/). Seems overkill, but why not learn a new technology and have some fun at the same time? :smile:
