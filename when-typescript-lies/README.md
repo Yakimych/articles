@@ -1,10 +1,10 @@
 # When TypeScript lies... and how to make it honest
 
-A switch from plain JavaScript to TypeScript at our company about a year ago proved to be one of the most succesfull technical decisions we've made in a while. Surprisingly, the productivity boost when working with our frontend code exceeded any expectations. In this article, however, I am going to focus on some of the problems that TypeScript does not solve (even though one would think it would), and what we are doing in order to try to mitigate those problems.
+A switch from plain JavaScript to TypeScript at our department about a year ago proved to be one of the most succesfull technical decisions we've made in a while. Surprisingly, the productivity boost when working with our frontend code exceeded any expectations. In this article, however, I am going to focus on some of the problems that TypeScript does not solve (even though one might think it would), and what we are doing in order to try to mitigate those problems.
 
 ## When TypeScript lies &mdash; API responses
 
-The most obvious challenge when relying on a type system, is to make sure that the guarantees it provides do not break whenever some piece of data comes from an external source, such as from a remote server via an API call.
+The most obvious challenge when relying on a type system, is to make sure that the guarantees it provides do not break whenever some piece of data comes from an external source, such as a remote server via an API call.
 
 ```ts
 const getUsers = (): Promise<User[]> => {
@@ -13,15 +13,15 @@ const getUsers = (): Promise<User[]> => {
 };
 ```
 
-We are happy to "strongly type" both the `getUsers` function, as well as `axios.get`, but what happens if whatever comes back from the server does not have a field called `users`? Our IDE will tell us that accessing `users` is safe, and it will readily help us with intellisense:
+We are happy to "strongly type" both the `getUsers` function, as well as `axios.get` via a generic type parameter, but what happens if whatever comes back from the server does not have a field called `users`? Our IDE will tell us that accessing `users` is safe, and it will readily help us with intellisense:
 
 ![Intellisense provides potentially unreliable type information](https://user-images.githubusercontent.com/5010901/61309186-0176d500-a7f2-11e9-91ab-02454ca65683.png)
 
-The compiler and typechecker will happily confirm that the types are correct and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we can happily map over the `users` array (_cough_ undefined _cough_) and get a runtime crash &mdash; just like we would with good old JavaScript.
+The compiler and typechecker will be even more happy to confirm that the types are correct and it is safe to use the returned Promise wherever the function is called. Moreover, a whole chain of function calls that depends on the initial typing is going to look good all the way down to the UI, where we enthusiastically map over the `users` array (_cough_ undefined _cough_) and get a runtime crash &mdash; just like we would with good old JavaScript.
 
 ![An object that cannot be undefined according to the type system is undefined at runtime](https://user-images.githubusercontent.com/5010901/61309132-edcb6e80-a7f1-11e9-9893-b8cf525029be.png)
 
-What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it. While this is *totally* normal for JavaScript, where we're used to this kind of stuff and just patiently wait for it to crash in runtime, with TypeScript it's even more annoying, becase of the expectations that the type system is supposed to help deal with exactly such kind of problems.
+What's even more disturbing is that depending on the journey of the `users` through the codebase, it might (or might not) be rather tricky to trace the origin of the error once we encounter the runtime crash. For example, in case of an array, the variable can be passed around freely from function call to function call &mdash; not just ignoring, but essentially hiding the problem with the incorrect type, until at some point we finally decide to map over it. While this is (_totally_...?) normal for JavaScript, where we're used to this kind of stuff and just patiently wait for it to crash in runtime, with TypeScript it's even more annoying, because of the expectations that the type system is supposed to help deal with exactly such kind of problems.
 
 ## When TypeScript lies &mdash; JSON.parse()
 
