@@ -47,7 +47,7 @@ const serializedEvent: string = JSON.stringify(someEvent);
 const deserializedEvent: SomeEvent = JSON.parse(serializedEvent);
 ```
 
-This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`, but because the date is stringified into... well... a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDate()` on this "date": `Uncaught TypeError: deserializedEvent.date.getDate is not a function`.
+This seems like a reasonable operation, and TypeScript will not fight us along the way, even though we could potentially assign any type to `deserializedEvent`. However, because the date is stringified into... well... a string, the parsed type is in fact `{ description: string; date: string; }`. Moreover, this would painfully crash at runtime if we try to call e.g. `getDate()` on this "date": `Uncaught TypeError: deserializedEvent.date.getDate is not a function`.
 
 ![Intellisense tells us getDate() exists and is safe to use, but it crashes at runtime](https://user-images.githubusercontent.com/5010901/61804139-b123f680-ae33-11e9-9b4c-0ea840b34a8d.png)
 
@@ -91,7 +91,7 @@ const userApiResponseDecoder = object({
 
 When getting data from the API we can keep ourselves in check by being extra honest and marking the return type from axios responses as `unknown`. After all, we don't really know at "compile time" what the server is going to return, do we? :)
 
-Now TypeScript will actually not allow us to freely pass around `apiResponse.users` and pretend like we are sure it's an array of users. We would have to decode the `apiResponse` first:
+Now TypeScript will not even allow us to freely pass around `apiResponse.users` and pretend like we are sure it's an array of users. We would have to decode the `apiResponse` first:
 
 ```ts
 const getUsers = (apiBaseUrl: string) => {
