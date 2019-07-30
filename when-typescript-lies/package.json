@@ -1,0 +1,18 @@
+{
+  "name": "when-typescript-lies",
+  "version": "1.0.0",
+  "description": "A switch from plain JavaScript to TypeScript at our company about a year ago proved to be one of the most succesfull technical decisions we've made in a while. Surprisingly, the productivity boost when working with our frontend code exceeded any expectations. In this article, however, I am going to focus on some of the problems that TypeScript does not solve (even though one would think it would), and what we are doing in order to try to mitigate those problems.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@mojotech/json-type-validation": "^3.1.0",
+    "axios": "^0.19.0"
+  }
+}
