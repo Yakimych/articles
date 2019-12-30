@@ -59,7 +59,6 @@ namespace CSharp.Example
                     errorMessage: null));
         }
 
-        // But wait, we can still create an object in an invalid state!
         [Fact]
         public void ApiCallResult_ThrowsException_When_IsSuccess_IsTrue_But_ErrorMessage_InNotEmpty()
         {
