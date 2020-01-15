@@ -158,7 +158,7 @@ type apiCallResult =
 
 One thing that's pretty much uncontroversial when it comes to software development, is that the ultimate goal is making our users happy. How do expressive type systems make our users happy? Most users of our software never see our code, let alone care about what language or type system we use. This is true, but this does **not** mean that our technology choices don't affect our users.
 
-In this case, a more expressive type system allows us, as developers, to focus on the core of the problem: analyzing the requirements, and implementing the logic; as opposed to writing checks for all possible permutations of invalid states, as well as complementing with a test suite that needs to be written and maintained. [Making impossible states impossible](TODO: Link) has been one of the common themes in the functional programming community, and it really helps both during initial development, as well as during refactoring when fixing bugs, or responing to new or changing requirements.
+In this case, a more expressive type system allows us, as developers, to focus on the core of the problem: analyzing the requirements, and implementing the logic; as opposed to writing checks for all possible permutations of invalid states, as well as complementing with a test suite that needs to be written and maintained. [Making impossible states impossible](TODO: Link) has been one of the common themes in the functional programming community, and it really helps both during initial development, as well as during refactoring when fixing bugs, or responding to new or changing requirements.
 
 ## Summary
 
