@@ -162,4 +162,4 @@ In this case, a more expressive type system allows us, as developers, to focus o
 
 ## Summary
 
-What those examples clearly demonstrate is that a "more expressive" language or type system allows us to _express more_ with 1) less code 2) in a more concicse and readable way. The second point is made even more obvious when working with ADTs (switching/pattern matching), but this might be a topic for another article.
+What those examples clearly demonstrate is that a "more expressive" language or type system allows us to _express more_ (1) with less code (2) in a more concicse and readable way. The second point is made even more obvious when working with ADTs (switching/pattern matching), but this might be a topic for another article.
